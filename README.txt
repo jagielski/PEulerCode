@@ -1,3 +1,5 @@
+I currently plan to clean up some solutions of late problems, then work on finishing the first 100 problems.
+
 This is just a dump of all the code I have written for Project Euler problems.
 My general strategy for them is to think about them mathematically first, hopefully coming up with some strategies for optimization.
 If necessary, I will make some test functions so I can conjecture a mathematical rule. After this comes the code, which is generally not too tricky-
