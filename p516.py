@@ -1,3 +1,5 @@
+# this one works takes a few minutes
+
 # theory - a prime p is a hamming prime if p-1 is a hamming number
 # phi(n)=n*product((p_i-1)/p_i) for all primes p_i which divide n
 # then phi(n) is hamming iff n = h*k, where h is hamming and k is the product of distinct hamming primes
@@ -13,11 +15,9 @@ N=10**12
 def hammings(N):
     curpower = 1
     twopowers = []
-    i=0
-    while i<32:
+    while curpower<N:
         twopowers.append(curpower)
         curpower*=2
-        i+=1
     curpower = 1
     threepowers = []
     while curpower<N:
@@ -94,4 +94,4 @@ def counthamtots(M,maxind):
         count=(count+hamprimeli[ind]*counthamtots(M//hamprimeli[ind],ind))%(2**32)
     return count%(2**32)
     
-#print(counthamtots(N,len(hamprimeli)))
+print(counthamtots(N,len(hamprimeli)))

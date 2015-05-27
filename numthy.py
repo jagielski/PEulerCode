@@ -29,7 +29,31 @@ def extgcd(a,b):
         (old_s, s) = (s, old_s - quotient * s)
         (old_t, t) = (t, old_t - quotient * t)       
     return (old_s, old_t, old_r)
-    
+
+def jacobi(a,n):
+    val=1
+    top=a%n
+    bottom=n
+    while top%2==0:
+        top=top//2
+        if ((bottom*bottom-1)//8)%2!=0:
+            val=-val
+    while top!=1:
+        top, bottom = bottom, top
+        if bottom%4==3 and top%4==3:
+            val=-val
+        top=top%bottom
+        # print(top,bottom)
+        if extgcd(top,bottom)[2]!=1:
+            return 0
+        while top%2==0:
+            
+            top=top//2
+            if ((bottom*bottom-1)//8)%2!=0:
+                val=-val
+    return val
+
+                
 def perfectpower(n):
     """Checks to see if n is a perfect power - uses built in sieve of eratosthenes (code from stackoverflow) to only check prime roots"""
     from math import log2
@@ -50,7 +74,67 @@ def aks(n):
         return False
     minorder = int(log2(n)**2)
     
+def crt(ali,mli):
+    # print(ali,mli)
+    M=1
+    for m in mli:
+        M*=m
+    bli=[]
+    for i in range(len(ali)):
+        bli.append(solvelincong(M//mli[i],1,mli[i]))
+    result=sum([ali[i]*bli[i]*(M//mli[i]) for i in range(len(ali))])%M
+    return result
     
-
+def powmod(base,exp, mod):
+    """calculates a\equiv base^exp \mod{mod}"""
+    a=1
+    b=base%mod
+    c=exp
+    while c>0:
+        if c%2==1:
+            a=a*b%mod
+        c=c//2
+        b=b*b%mod
+    return a
+    
+def solostrass(a,n):
+    """False: composite; True: probably prime"""
+    if gcd(a,n)!=1:
+        return False
+    elif powmod(a,(n-1)//2,n)!=(jacobi(a,n)+n)%n:
+        return False
+    else:
+        return True
+        
+def millerrabin(a,n):
+    """False: composite; True: probably prime"""
+    if extgcd(a,n)[2]!=1:
+        return False
+    m=n-1
+    s=0
+    while m%2==0:
+        m=m//2
+        s+=1
+    b=powmod(a,m,n)
+    cur=b
+    prev=1
+    for exp in [2**k for k in range(1,s+1)]:
+        prev=cur
+        cur=(prev*prev)%n
+        if cur==1 and (prev!=1 and prev!=n-1):
+            return False
+    if (cur%n)!=1:
+        return False
+    return True
+        
+    
+        
 if __name__ == '__main__':
-    print(perfectpower(5**101))
+    print(crt([2,3,1],[3,4,5]))
+    print(extgcd(1021763679,519424709))
+    print(powmod(1244183534,252426389,1889570071)*powmod(solvelincong(732959706,1,1889570071),496549570,1889570071)%1889570071)
+    print(powmod(1244183534,solvelincong(1021763679,1,1889458672),1889570071),powmod(732959706,solvelincong(519424709,1,1889458672),1889570071))
+    print(jacobi(1001,9907),jacobi(107,23),jacobi(1411,317),jacobi(1735,507))
+    for n in [294409,118901509,118901521]:
+        for a in [2,3,5,17]:
+            print(a,n,solostrass(a,n),millerrabin(a,n))    
