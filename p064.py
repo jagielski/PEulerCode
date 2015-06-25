@@ -1,4 +1,6 @@
 from math import sqrt
+from decimal import *
+getcontext().prec = 40
 class Surd:
     def __init__(self,a,b,d):
         self.a=a
@@ -30,4 +32,26 @@ class Surd:
         
 def contfrac(n):
     a=Surd(0,1,d)
-    first=a-Surd(int(a.eval))
+    first=a-Surd(int(a.eval),0,d)
+    
+def contfrac(n):
+    x = Decimal(n).sqrt()
+    first = Decimal(x-int(x))
+    if first==0:
+        return 0
+    period =0
+    cur=0
+    while cur!=first:
+        cur = Decimal(1/(first))
+        cur = Decimal(cur-int(cur))
+        period +=1
+    return period
+    
+for i in range(2,100):
+    
+"""count=0
+for n in [Decimal(k) for k in range(1,10000)]:
+    if n.sqrt()!=int(n.sqrt()):
+        if contfrac(n)%2==1:
+            count+=1
+print(count)"""

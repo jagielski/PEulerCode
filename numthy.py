@@ -127,14 +127,56 @@ def millerrabin(a,n):
         return False
     return True
         
+def pollrhofactor(n):
+    x=2
+    y=2
+    c=1
+    while c==1:
+        x=(x*x+1)%n
+        y=(y**4+2*y*y+2)%n
+        print(x,y)
+        c=extgcd(y-x,n)[2]
+    if c==n:
+        return False
+    return (c,n//c)
+    
+
+def pollrhodlog(p,g,h):
+    def f(xab):
+        (x,a,b)=xab[0],xab[1],xab[2]
+        if x%3==0:
+            return ((x**2)%p,(a+a)%(p-1),(b+b)%(p-1))
+        if x%3==1:
+            return ((x*g)%p,(a+1)%(p-1),b)
+        if x%3==2:
+            return ((x*h)%p,a,(b+1)%(p-1))
+    x=f((1,0,0))
+    y=f(f((1,0,0)))
+    i=0
+    while (x[0]!=y[0]):
+        if i<3:
+            print(x,y)
+        x=f(x)
+        y=f(f(y))
+        i+=1
+    print(g,'^',x[1],'*',h,'^',x[2],"=",g,'^',y[1],'*',h,'^',y[2],"in", i, "steps")
     
         
 if __name__ == '__main__':
-    print(crt([2,3,1],[3,4,5]))
-    print(extgcd(1021763679,519424709))
-    print(powmod(1244183534,252426389,1889570071)*powmod(solvelincong(732959706,1,1889570071),496549570,1889570071)%1889570071)
-    print(powmod(1244183534,solvelincong(1021763679,1,1889458672),1889570071),powmod(732959706,solvelincong(519424709,1,1889458672),1889570071))
-    print(jacobi(1001,9907),jacobi(107,23),jacobi(1411,317),jacobi(1735,507))
-    for n in [294409,118901509,118901521]:
-        for a in [2,3,5,17]:
-            print(a,n,solostrass(a,n),millerrabin(a,n))    
+    #print(crt([2,3,1],[3,4,5]))
+    #print(extgcd(1021763679,519424709))
+    #print(powmod(1244183534,252426389,1889570071)*powmod(solvelincong(732959706,1,1889570071),496549570,1889570071)%1889570071)
+    #print(powmod(1244183534,solvelincong(1021763679,1,1889458672),1889570071),powmod(732959706,solvelincong(519424709,1,1889458672),1889570071))
+    #print(jacobi(1001,9907),jacobi(107,23),jacobi(1411,317),jacobi(1735,507))
+    #for n in [294409,118901509,118901521]:
+    #    for a in [2,3,5,17]:
+    #        print(a,n,solostrass(a,n),millerrabin(a,n))    
+    print(pollrhofactor(94134947))
+    pollrhodlog(1299743,5,319806)
+    print(powmod(5,362806,1299743)*powmod(319806,430782,1299743)%1299743 == powmod(5,772626,1299743)*powmod(319806,322080,1299743)%1299743)
+    print(powmod(5,409820,1299743)==powmod(319806,108702,1299743))
+    print(extgcd(108702,1299742))
+    print(409820*124089%1299742)
+    print(powmod(5,409820*124089,1299743)==powmod(319806,2,1299743),powmod(5,409820*124089,1299743)==powmod(5,448488,1299743))
+    print(224244,powmod(5,224244,1299743)==319806,224244+1299743//2,powmod(5,224244+1299743//2,1299743)==319806)
+    

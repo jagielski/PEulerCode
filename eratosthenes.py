@@ -8,6 +8,6 @@ def primes_sieve(limit):
             for n in range(i*i, limit, i):     # Mark factors non-prime
                 a[n] = False
                 
-primefile = open("primes1k.txt","w")
-for prime in primes_sieve(1000):
+primefile = open("primes2108.txt","w")
+for prime in primes_sieve(2*10**8):
     primefile.write(str(prime)+'\n')

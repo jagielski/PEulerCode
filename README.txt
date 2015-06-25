@@ -33,3 +33,4 @@ p282.py, I wrote this one a long time ago and haven't come back to it
 Recently solved:
 p407.py - got this working, although it took a long time to run. people on the boards were using C/C++ and getting much faster times
 p516.py - got this working - removed 2,3,5 from the hamming primes list, as that resulted in doublecounting many values
+p051.py - simple bruteforce using a presieved set of primes
